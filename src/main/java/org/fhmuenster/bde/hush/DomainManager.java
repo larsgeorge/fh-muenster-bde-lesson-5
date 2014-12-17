@@ -61,26 +61,22 @@ public class DomainManager {
 
     List<ShortDomain> domains = new ArrayList<ShortDomain>();
 
-    try {
-      table = rm.getTable(ShortDomainTable.NAME);
-      Scan scan = new Scan();
-      scan.addFamily(ShortDomainTable.DOMAINS_FAMILY);
-
-      ResultScanner results = table.getScanner(scan);
-      for (Result result : results) {
-        List<String> domainsList = new ArrayList<String>();
-        String shortDomain = Bytes.toString(result.getRow());
-
-        Map<byte[], byte[]> domainsMap = result
-            .getFamilyMap(ShortDomainTable.DOMAINS_FAMILY);
-        for (byte[] dom : domainsMap.keySet()) {
-          domainsList.add(Bytes.toString(dom));
-        }
-
-        domains.add(new ShortDomain(shortDomain, domainsList));
-      }
-    } finally {
-      rm.putTable(table);
+	table = rm.getTable(ShortDomainTable.NAME);
+	Scan scan = new Scan();
+	scan.addFamily(ShortDomainTable.DOMAINS_FAMILY);
+	
+	ResultScanner results = table.getScanner(scan);
+	for (Result result : results) {
+	  List<String> domainsList = new ArrayList<String>();
+	  String shortDomain = Bytes.toString(result.getRow());
+	
+	  Map<byte[], byte[]> domainsMap = result
+	      .getFamilyMap(ShortDomainTable.DOMAINS_FAMILY);
+	  for (byte[] dom : domainsMap.keySet()) {
+	    domainsList.add(Bytes.toString(dom));
+	  }
+	
+	  domains.add(new ShortDomain(shortDomain, domainsList));
     }
     return domains;
   }
@@ -97,28 +93,23 @@ public class DomainManager {
     HTable shortTable = rm.getTable(ShortDomainTable.NAME);
     HTable longTable = rm.getTable(LongDomainTable.NAME);
 
-    try {
-      byte[] shortBytes = Bytes.toBytes(shortDomain);
-      byte[] longBytes = Bytes.toBytes(longDomain);
+    byte[] shortBytes = Bytes.toBytes(shortDomain);
+    byte[] longBytes = Bytes.toBytes(longDomain);
 
-      // first add to sdom
-      Put shortPut = new Put(shortBytes);
-      shortPut.add(ShortDomainTable.DOMAINS_FAMILY, longBytes, Bytes.toBytes(
-        System.currentTimeMillis()));
-      shortTable.put(shortPut);
+    // first add to sdom
+    Put shortPut = new Put(shortBytes);
+    shortPut.add(ShortDomainTable.DOMAINS_FAMILY, longBytes, Bytes.toBytes(
+      System.currentTimeMillis()));
+    shortTable.put(shortPut);
 
-      // then add to ldom
-      Put longPut = new Put(longBytes);
-      longPut.add(LongDomainTable.DATA_FAMILY, LongDomainTable.SHORT_DOMAIN,
-        shortBytes);
-      longTable.put(longPut);
+    // then add to ldom
+    Put longPut = new Put(longBytes);
+    longPut.add(LongDomainTable.DATA_FAMILY, LongDomainTable.SHORT_DOMAIN,
+      shortBytes);
+    longTable.put(longPut);
 
-      longTable.flushCommits();
-      shortTable.flushCommits();
-    } finally {
-      rm.putTable(shortTable);
-      rm.putTable(longTable);
-    }
+    longTable.flushCommits();
+    shortTable.flushCommits();
   }
 
   /**
@@ -131,26 +122,18 @@ public class DomainManager {
     HTable shortTable = rm.getTable(ShortDomainTable.NAME);
     HTable longTable = rm.getTable(LongDomainTable.NAME);
 
-    try {
-      byte[] longBytes = Bytes.toBytes(longDomain);
-      Result result = longTable.get(new Get(longBytes));
-      if (!result.isEmpty()) {
-        byte[] shortBytes = result.getValue(LongDomainTable.DATA_FAMILY,
-            LongDomainTable.SHORT_DOMAIN);
-
-        Delete d = new Delete(shortBytes);
-        d.deleteColumn(ShortDomainTable.DOMAINS_FAMILY, longBytes);
-        shortTable.delete(d);
-
-        longTable.delete(new Delete(longBytes));
-
-        longTable.flushCommits();
-        shortTable.flushCommits();
+    byte[] longBytes = Bytes.toBytes(longDomain);
+    Result result = longTable.get(new Get(longBytes));
+    if (!result.isEmpty()) {
+      byte[] shortBytes = result.getValue(LongDomainTable.DATA_FAMILY,
+          LongDomainTable.SHORT_DOMAIN);
+      Delete d = new Delete(shortBytes);
+      d.deleteColumn(ShortDomainTable.DOMAINS_FAMILY, longBytes);
+      shortTable.delete(d);
+      longTable.delete(new Delete(longBytes));
+      longTable.flushCommits();
+      shortTable.flushCommits();
       }
-    } finally {
-      rm.putTable(shortTable);
-      rm.putTable(longTable);
-    }
   }
 
   /**
@@ -163,26 +146,21 @@ public class DomainManager {
     HTable shortTable = rm.getTable(ShortDomainTable.NAME);
     HTable longTable = rm.getTable(LongDomainTable.NAME);
 
-    try {
-      byte[] shortBytes = Bytes.toBytes(shortDomain);
-      Result result = longTable.get(new Get(shortBytes));
-      if (!result.isEmpty()) {
-        Map<byte[], byte[]> domainsMap = result.getFamilyMap(
-          ShortDomainTable.DOMAINS_FAMILY);
+    byte[] shortBytes = Bytes.toBytes(shortDomain);
+    Result result = longTable.get(new Get(shortBytes));
+    if (!result.isEmpty()) {
+      Map<byte[], byte[]> domainsMap = result.getFamilyMap(
+        ShortDomainTable.DOMAINS_FAMILY);
 
-        List<Delete> deletes = new ArrayList<Delete>();
-        for (byte[] longDomain : domainsMap.keySet()) {
-          deletes.add(new Delete(longDomain));
-        }
-        longTable.delete(deletes);
-        shortTable.delete(new Delete(shortBytes));
-
-        longTable.flushCommits();
-        shortTable.flushCommits();
+      List<Delete> deletes = new ArrayList<Delete>();
+      for (byte[] longDomain : domainsMap.keySet()) {
+        deletes.add(new Delete(longDomain));
       }
-    } finally {
-      rm.putTable(shortTable);
-      rm.putTable(longTable);
+      longTable.delete(deletes);
+      shortTable.delete(new Delete(shortBytes));
+
+      longTable.flushCommits();
+      shortTable.flushCommits();
     }
   }
 
@@ -205,18 +183,14 @@ public class DomainManager {
   public String shorten(String longDomain) throws IOException {
     HTable longTable = rm.getTable(LongDomainTable.NAME);
 
-    try {
-      Result result = longTable.get(new Get(Bytes.toBytes(longDomain)));
-      if (!result.isEmpty()) {
-        byte[] shortBytes = result.getValue(LongDomainTable.DATA_FAMILY,
-          LongDomainTable.SHORT_DOMAIN);
-        if (shortBytes != null && shortBytes.length != 0) {
-          return Bytes.toString(shortBytes);
-        }
+    Result result = longTable.get(new Get(Bytes.toBytes(longDomain)));
+    if (!result.isEmpty()) {
+      byte[] shortBytes = result.getValue(LongDomainTable.DATA_FAMILY,
+        LongDomainTable.SHORT_DOMAIN);
+      if (shortBytes != null && shortBytes.length != 0) {
+        return Bytes.toString(shortBytes);
       }
-      return getDefaultDomain();
-    } finally {
-      rm.putTable(longTable);
     }
+    return getDefaultDomain();
   }
 }

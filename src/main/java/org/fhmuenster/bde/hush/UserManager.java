@@ -73,9 +73,7 @@ public class UserManager {
     } catch (Exception e) {
       LOG.error("Unable to initialize admin user.", e);
       throw new IOException(e);
-    } finally {
-      rm.putTable(table);
-    }
+    } 
   }
 
   /**
@@ -98,9 +96,7 @@ public class UserManager {
     } catch (Exception e) {
       LOG.error("Unable to initialize counters.", e);
       throw new IOException(e);
-    } finally {
-      rm.putTable(table);
-    }
+    } 
   }
 
   /**
@@ -204,7 +200,6 @@ public class UserManager {
     put.add(UserTable.DATA_FAMILY, UserTable.ROLES, Bytes.toBytes(roles));
     table.put(put);
     table.flushCommits();
-    /*[*/rm.putTable(table);/*]*/
   }
   // ^^ HushHTablePoolUsage
 
@@ -227,7 +222,6 @@ public class UserManager {
     put.add(UserTable.DATA_FAMILY, UserTable.EMAIL, Bytes.toBytes(email));
     table.put(put);
     table.flushCommits();
-    rm.putTable(table);
   }
 
   public boolean changePassword(String username, String oldPassword,
@@ -240,7 +234,6 @@ public class UserManager {
       UserTable.DATA_FAMILY, UserTable.CREDENTIALS, Bytes.toBytes(oldPassword),
       put);
     table.flushCommits();
-    rm.putTable(table);
     return check;
   }
 
@@ -252,7 +245,6 @@ public class UserManager {
       Bytes.toBytes(newPassword));
     table.put(put);
     table.flushCommits();
-    rm.putTable(table);
   }
 
   public User getUser(String username) throws IOException {
@@ -280,9 +272,7 @@ public class UserManager {
       user = new User(username, firstName, lastName, email, credentials, roles);
     } catch (Exception e) {
       LOG.error(String.format("Unable to get user '%s'", username), e);
-    } finally {
-      rm.putTable(table);
-    }
+    } 
 
     return user;
   }
@@ -322,7 +312,6 @@ public class UserManager {
     if (errors > 0) {
       LOG.error(String.format("Encountered %d errors in getUsers", errors));
     }
-    rm.putTable(table);
     return users;
   }
 
@@ -358,13 +347,7 @@ public class UserManager {
     } catch (Exception e) {
       LOG.error("Unable to create a new anonymous user Id.", e);
       throw new IOException(e);
-    } finally {
-      try {
-        manager.putTable(table);
-      } catch (Exception e) {
-        // ignore
-      }
-    }
+    } 
   }
 
   public static boolean isAnonymous(String username) {

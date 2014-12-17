@@ -89,7 +89,6 @@ public class Counters {
         country.getCode(), incrBy);
     }
     table.increment(increment);
-    rm.putTable(table);
   }
 
   /**
@@ -239,8 +238,6 @@ public class Counters {
     if (normalize > 0) {
       normalizeData(clicks, normalize, maxValue);
     }
-
-    manager.putTable(table);
 
     ShortUrlStatistics statistics = new ShortUrlStatistics(shortUrl,
       TimeFrame.DAY);

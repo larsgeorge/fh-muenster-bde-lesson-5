@@ -8,6 +8,8 @@ import java.net.URL;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.client.HConnection;
+import org.apache.hadoop.hbase.client.HConnectionManager;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.HTablePool;
 
@@ -32,7 +34,7 @@ public class ResourceManager {
 
   private static ResourceManager INSTANCE;
   private final Configuration conf;
-  private final HTablePool pool;
+  private final HConnection connection;
   private final Counters counters;
   private final DomainManager domainManager;
   private final UserManager userManager;
@@ -86,7 +88,7 @@ public class ResourceManager {
   // vv HushHTablePoolProvider
   private ResourceManager(Configuration conf) throws IOException {
     this.conf = conf;
-    this.pool = new HTablePool(conf, 10);
+    this.connection = HConnectionManager.createConnection(conf);
     /* ... */
     // ^^ HushHTablePoolProvider
     this.counters = new Counters(this);
@@ -119,15 +121,6 @@ public class ResourceManager {
   }
 
   /**
-   * Returns the internal <code>HTable</code> pool.
-   *
-   * @return The shared table pool.
-   */
-  public HTablePool getTablePool() {
-    return pool;
-  }
-
-  /**
    * Returns a single table from the shared table pool. More convenient to use
    * compared to <code>getTablePool()</code>.
    *
@@ -137,23 +130,7 @@ public class ResourceManager {
    */
   // vv HushHTablePoolProvider
   public HTable getTable(byte[] tableName) throws IOException {
-    return (HTable) pool.getTable(tableName);
-  }
-
-  // ^^ HushHTablePoolProvider
-
-  /**
-   * Returns the previously retrieved table to the shared pool. The caller must
-   * take care of calling <code>flushTable()</code> if there are any pending
-   * mutations.
-   *
-   * @param table The table reference to return to the pool.
-   */
-  // vv HushHTablePoolProvider
-  public void putTable(HTable table) throws IOException {
-    if (table != null) {
-      pool.putTable(table);
-    }
+    return (HTable) connection.getTable(tableName);
   }
 
   // ^^ HushHTablePoolProvider

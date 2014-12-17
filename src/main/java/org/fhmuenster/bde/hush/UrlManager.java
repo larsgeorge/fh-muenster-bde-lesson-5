@@ -61,8 +61,6 @@ public class UrlManager {
     } catch (Exception e) {
       LOG.error("Unable to initialize counters.", e);
       throw new IOException(e);
-    } finally {
-      rm.putTable(table);
     }
   }
 
@@ -146,7 +144,6 @@ public class UrlManager {
       table.put(put);
       table.flushCommits();
     }
-    manager.putTable(table);
     return shortId;
   }
 
@@ -174,7 +171,6 @@ public class UrlManager {
 
     table.put(put);
     table.flushCommits();
-    rm.putTable(table);
   }
 
   /**
@@ -194,7 +190,6 @@ public class UrlManager {
       Bytes.toBytes(System.currentTimeMillis()));
     table.put(put);
     table.flushCommits();
-    rm.putTable(table);
   }
 
   /**
@@ -243,7 +238,6 @@ public class UrlManager {
     long clicks = Bytes.toLong(result.getValue(ShortUrlTable.DATA_FAMILY,
       ShortUrlTable.CLICKS));
 
-    rm.putTable(table);
     return new ShortUrl(shortId, domain, url, refShortId, user, clicks);
   }
 
@@ -271,7 +265,6 @@ public class UrlManager {
     String shortId = Bytes.toString(result.getValue(LongUrlTable.DATA_FAMILY,
       LongUrlTable.SHORT_ID));
 
-    rm.putTable(table);
     return new LongUrl(url, shortId);
   }
 
@@ -307,12 +300,6 @@ public class UrlManager {
     } catch (Exception e) {
       LOG.error("Unable to create a new short Id.", e);
       throw new IOException(e);
-    } finally {
-      try {
-        manager.putTable(table);
-      } catch (Exception e) {
-        // ignore
-      }
     }
   }
 
@@ -333,7 +320,6 @@ public class UrlManager {
       String shortId = rowKey.substring(rowKey.indexOf(0) + 1);
       ids.add(shortId);
     }
-    rm.putTable(table);
     return ids;
   }
 
