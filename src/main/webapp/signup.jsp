@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="com.hbasebook.hush.HushUtil" %>
-<%@ page import="com.hbasebook.hush.ResourceManager" %>
-<%@ page import="com.hbasebook.hush.UserManager" %>
+<%@ page import="org.fhmuenster.bde.hush.HushUtil" %>
+<%@ page import="org.fhmuenster.bde.hush.ResourceManager" %>
+<%@ page import="org.fhmuenster.bde.hush.UserManager" %>
 <%@ page import="java.util.BitSet" %>
 <%
   String action = HushUtil.fixNull(request.getParameter("action"));

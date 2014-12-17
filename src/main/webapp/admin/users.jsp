@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ page import="java.util.List"%>
-<%@ page import="com.hbasebook.hush.model.User"%>
-<%@ page import="com.hbasebook.hush.HushUtil"%>
-<%@ page import="com.hbasebook.hush.ResourceManager"%>
-<%@ page import="com.hbasebook.hush.UserManager"%>
+<%@ page import="org.fhmuenster.bde.hush.model.User"%>
+<%@ page import="org.fhmuenster.bde.hush.HushUtil"%>
+<%@ page import="org.fhmuenster.bde.hush.ResourceManager"%>
+<%@ page import="org.fhmuenster.bde.hush.UserManager"%>
 <%
   UserManager um = ResourceManager.getInstance().getUserManager();
   List<User> list = um.getUsers();

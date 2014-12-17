@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ page import="java.util.List"%>
-<%@ page import="com.hbasebook.hush.HushUtil"%>
-<%@ page import="com.hbasebook.hush.model.ShortDomain"%>
-<%@ page import="com.hbasebook.hush.ResourceManager"%>
-<%@ page import="com.hbasebook.hush.DomainManager"%>
+<%@ page import="org.fhmuenster.bde.hush.HushUtil"%>
+<%@ page import="org.fhmuenster.bde.hush.model.ShortDomain"%>
+<%@ page import="org.fhmuenster.bde.hush.ResourceManager"%>
+<%@ page import="org.fhmuenster.bde.hush.DomainManager"%>
 <%
   DomainManager dm = ResourceManager.getInstance().getDomainManager();
 

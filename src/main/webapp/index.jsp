@@ -1,12 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="com.hbasebook.hush.ResourceManager" %>
-<%@ page import="com.hbasebook.hush.UrlManager" %>
-<%@ page import="com.hbasebook.hush.HushUtil" %>
-<%@ page import="com.hbasebook.hush.model.ShortUrl" %>
+<%@ page import="org.fhmuenster.bde.hush.ResourceManager" %>
+<%@ page import="org.fhmuenster.bde.hush.UrlManager" %>
+<%@ page import="org.fhmuenster.bde.hush.HushUtil" %>
+<%@ page import="org.fhmuenster.bde.hush.model.ShortUrl" %>
 <%@ page import="java.net.URL" %>
 <%@ page import="java.security.Principal" %>
 <%@ page import="java.net.MalformedURLException" %>
-<%@ page import="com.hbasebook.hush.servlet.RequestInfo" %>
+<%@ page import="org.fhmuenster.bde.hush.servlet.RequestInfo" %>
 <%
   ShortUrl surl = null;
   String urlParam = request.getParameter("url");

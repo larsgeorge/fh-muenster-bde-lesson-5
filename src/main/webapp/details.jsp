@@ -1,13 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="com.hbasebook.hush.ResourceManager" %>
-<%@ page import="com.hbasebook.hush.Counters" %>
+<%@ page import="org.fhmuenster.bde.hush.ResourceManager" %>
+<%@ page import="org.fhmuenster.bde.hush.Counters" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.NavigableMap" %>
 <%@ page import="java.util.Calendar" %>
-<%@ page import="com.hbasebook.hush.model.Counter" %>
-<%@ page import="com.hbasebook.hush.model.ShortUrl" %>
-<%@ page import="com.hbasebook.hush.model.ShortUrlStatistics" %>
-<%@ page import="com.hbasebook.hush.model.User" %>
+<%@ page import="org.fhmuenster.bde.hush.model.Counter" %>
+<%@ page import="org.fhmuenster.bde.hush.model.ShortUrl" %>
+<%@ page import="org.fhmuenster.bde.hush.model.ShortUrlStatistics" %>
+<%@ page import="org.fhmuenster.bde.hush.model.User" %>
 <%@ page import="java.util.*" %>
 <%
   // check if the parameter was given
