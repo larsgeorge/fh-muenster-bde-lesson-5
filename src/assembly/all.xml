@@ -43,7 +43,7 @@
       <unpack>false</unpack>
       <scope>runtime</scope>
       <excludes>
-        <exclude>com.hbasebook:hush</exclude>
+        <exclude>org.fhmuenster.bde:hush</exclude>
       </excludes>
     </dependencySet>
   </dependencySets>
