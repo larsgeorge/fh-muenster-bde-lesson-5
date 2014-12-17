@@ -55,12 +55,12 @@ public class SchemaManager {
       if (config.containsKey(base + "description")) {
         ts.setDescription(config.getString(base + "description"));
       }
-      if (config.containsKey(base + "deferred_log_flush")) {
-        ts.setDeferredLogFlush(config.getBoolean(base + "deferred_log_flush"));
-      }
-      if (config.containsKey(base + "max_file_size")) {
-        ts.setMaxFileSize(config.getLong(base + "max_file_size"));
-      }
+//      if (config.containsKey(base + "deferred_log_flush")) {
+//        ts.setDeferredLogFlush(config.getBoolean(base + "deferred_log_flush"));
+//      }
+//      if (config.containsKey(base + "max_file_size")) {
+//        ts.setMaxFileSize(config.getLong(base + "max_file_size"));
+//      }
       if (config.containsKey(base + "memstore_flush_size")) {
         ts.setMemStoreFlushSize(config.getLong(base + "memstore_flush_size"));
       }
@@ -161,7 +161,7 @@ public class SchemaManager {
         if (modCols.size() > 0 || addCols.size() > 0 || delCols.size() > 0) {
           for (final HColumnDescriptor col : modCols) {
             LOG.info("Found different column -> " + col);
-            hbaseAdmin.modifyColumn(schema.getName(), col.getNameAsString(), // co HushSchemaManager-3-AlterCol Alter the columns that have changed. The table was properly disabled first.
+            hbaseAdmin.modifyColumn(schema.getName(), // co HushSchemaManager-3-AlterCol Alter the columns that have changed. The table was properly disabled first.
               col);
           }
           for (final HColumnDescriptor col : addCols) {
@@ -204,8 +204,8 @@ public class SchemaManager {
   private HTableDescriptor convertSchemaToDescriptor(final TableSchema schema) {
     HTableDescriptor desc;
     desc = new HTableDescriptor(schema.getName());
-    desc.setDeferredLogFlush(schema.isDeferredLogFlush());
-    desc.setMaxFileSize(schema.getMaxFileSize());
+//    desc.setDeferredLogFlush(schema.isDeferredLogFlush());
+//    desc.setMaxFileSize(schema.getMaxFileSize());
     desc.setMemStoreFlushSize(schema.getMemStoreFlushSize());
     desc.setReadOnly(schema.isReadOnly());
     for (Map.Entry<String, String> entry : schema.getKeyValues().entrySet()) {
