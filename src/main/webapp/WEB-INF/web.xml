@@ -7,7 +7,7 @@
 
   <filter>
     <filter-name>RedirectFilter</filter-name>
-    <filter-class>com.hbasebook.hush.servlet.filter.RedirectFilter</filter-class>
+    <filter-class>org.fhmuenster.bde.hush.servlet.filter.RedirectFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>RedirectFilter</filter-name>
