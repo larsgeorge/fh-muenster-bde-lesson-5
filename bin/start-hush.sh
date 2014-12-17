@@ -14,6 +14,7 @@ bin=`cd "$bin">/dev/null; pwd`
 in_dev_env=false
 if [ -d "${HUSH_HOME}/target" ]; then
   in_dev_env=true
+  echo "Found development environment..."
 fi
 
 # set up Maven environment
@@ -44,10 +45,11 @@ add_maven_test_classes_to_classpath() {
 
 add_maven_deps_to_classpath() {
   cpfile="${HUSH_HOME}/target/cached_classpath.txt"
+  echo "Adding libraries from cached file: $cpfile"
   if [ ! -f "${cpfile}" ]; then
     ${MVN} -f "${HUSH_HOME}/pom.xml" dependency:build-classpath -Dmdep.outputFile="${cpfile}" &> /dev/null
   fi
-  CLASSPATH=${CLASSPATH}:`cat "${f}"`
+  CLASSPATH=${CLASSPATH}:`cat "${cpfile}"`
 }
 
 # Add maven target directory
@@ -98,7 +100,7 @@ echo "====================="
 echo " Starting Hush..."
 echo "====================="
 
-echo $CLASSPATH
+echo "Using classpath: $CLASSPATH"
 
 cd ${bin}/..
-"$JAVA" $JAVA_HEAP_MAX $HUSH_OPTS -classpath "$CLASSPATH" com.hushbook.hush.HushMain
+"$JAVA" $JAVA_HEAP_MAX $HUSH_OPTS -classpath "$CLASSPATH" org.fhmuenster.bde.hush.HushMain
