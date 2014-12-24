@@ -133,7 +133,7 @@ public class Counters {
     List<ShortUrlStatistics> stats = new ArrayList<ShortUrlStatistics>();
     for (ShortUrl surl : rm.getUrlManager().getShortUrlsByUser(username)) {
       ShortUrlStatistics stat = getDailyStatistics(surl, 30, 110.0);
-      stats.add(stat);
+      if (stat != null) stats.add(stat);
     }
     return stats;
   }
