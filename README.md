@@ -103,6 +103,9 @@ INFO [main] (AbstractConnector.java:338) - Started SelectChannelConnector@0.0.0.
 
 Jetzt kann die Hush UI über Firefox aufgerufen werden unter: http://hba.se:8080/.
 
+![Hush UI](https://raw.github.com/larsgeorge/fh-muenster-bde-lesson-5/master/static/img/hush-ui.png)
+
+
 Während des Starts legt Hush auch einen Administrator Konto an, welches mit dem Username “admin” und Passwort “admin” versehen ist. Damit kann man sich in Hush anmelden und sehen, welche Kürzel angelegt worden sind. 
 
 #### Hinweise:
