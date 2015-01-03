@@ -164,7 +164,9 @@ COLUMN CELL
 Weitere Informationen sind unten zu sehen, wo die Daten beider (nach einem weiteren “flush” Kommando) HFile Dateien ausgegeben sind. Man kann dort den alten Wert immer noch sehen, obwohl der Wert in der Shell nicht mehr abgefragt werden kann. Die “Tombstone” (siehe “DeleteColumn”) Markierung sorgt dafür, dass der Wert für Client Anwendungen nicht mehr sichtbar ist.
 
 
-# HFile Informationen
+### HFile Informationen
+
+Hier einige extra Informationen welche man über die HBase Dateien, genannt HFile, abrufen kann. Bitte beachten das Verzeichnisnamen zum Teil Hashcodes enthalten und deswegen immer verschieden sind. 
 
 ```
 [cloudera@quickstart fh-muenster-bde-lesson-5]$ hdfs dfs -ls /hbase/
