@@ -11,7 +11,6 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.client.HConnection;
 import org.apache.hadoop.hbase.client.HConnectionManager;
 import org.apache.hadoop.hbase.client.HTable;
-import org.apache.hadoop.hbase.client.HTablePool;
 
 import com.maxmind.geoip.Country;
 import com.maxmind.geoip.LookupService;
