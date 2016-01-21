@@ -13,7 +13,9 @@ Hush ist eine Beispiel Anwendung, welche HBase als Speicher benutzt. Dazu wird d
 Zuerst muss das Repository gecloned und übersetzt werden:
 
 ```
-[cloudera@quickstart ~]$ git clone https://github.com/larsgeorge/fh-muenster-bde-lesson-5.git
+$ git clone https://github.com/larsgeorge/fh-muenster-bde-lesson-5.git
+$ cd fh-muenster-bde-lesson-5
+$ mvn clean package
 ```
 
 Hush benutzt intern die URL “hba.se”, welche in die `/etc/hosts` Datei in der VM eingetragen werden muss und auf `localhost` (also 127.0.0.1) zeigt:
